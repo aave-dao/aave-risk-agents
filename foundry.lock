@@ -1,9 +1,15 @@
 {
-  "lib/chaos-agents": {
-    "branch": {
-      "name": "chore/rename-agents",
-      "rev": "a3b6163de82b4dc575535ef324d1ac01beef6c9a"
+  "lib/aave-capo": {
+    "rev": "ef778f5f7fbf9e2cea0b815f8a85d8097747e45e"
+  },
+  "lib/aave-helpers": {
+    "tag": {
+      "name": "v3.1.0",
+      "rev": "e0ad471e9da2b45468b0f3e0adac7d3c257940dc"
     }
+  },
+  "lib/chaos-agents": {
+    "rev": "b365c58bf040c32521266cf10a4e70da9a8b7d4f"
   },
   "lib/forge-std": {
     "rev": "066ff16c5c03e6f931cd041fd366bc4be1fae82a"
