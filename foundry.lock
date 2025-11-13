@@ -1,0 +1,11 @@
+{
+  "lib/chaos-agents": {
+    "branch": {
+      "name": "chore/rename-agents",
+      "rev": "a3b6163de82b4dc575535ef324d1ac01beef6c9a"
+    }
+  },
+  "lib/forge-std": {
+    "rev": "066ff16c5c03e6f931cd041fd366bc4be1fae82a"
+  }
+}
