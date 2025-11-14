@@ -1,6 +1,8 @@
 # Aave Agents
 
-Repository containing Aave Agent contracts to be used by the [Chaos Agents](https://github.com/ChaosLabsInc/chaos-agents) middleware to consume automated risk param updates from Chaos Risk Oracle to inject into the Aave protocol. These agent contracts are designed to be lightweight and only contain validation / injection logic specific to the aave risk param update. To know more about the Chaos Agents middleware, please check [this](https://github.com/ChaosLabsInc/chaos-agents).
+Repository containing Aave Agent contracts to be used by the [Chaos Agents](https://github.com/ChaosLabsInc/chaos-agents) middleware to consume automated risk param updates from Chaos Risk Oracle to inject into the Aave protocol. These agent contracts are designed to be lightweight and only contain validation / injection logic specific to the aave risk param update.
+
+To know more about the Chaos Agents middleware, please check [this](https://github.com/ChaosLabsInc/chaos-agents).
 
 This repository hosts the following Aave-specific agent implementations:
 
