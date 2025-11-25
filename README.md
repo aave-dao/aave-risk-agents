@@ -12,6 +12,8 @@ This repository hosts the following Aave-specific agent implementations:
 - [AaveEModeAgent](src/contracts/agent/AaveEModeAgent.sol): Agent contract to validate / update E-Mode category parameters.
 - [AaveRatesAgent](src/contracts/agent/AaveRatesAgent.sol): Agent contract to validate / update interest rate strategy updates.
 
+_Please note: These agent contracts are to be given the `RISK_ADMIN` role by the aave governance, and to be controlled by a single aave agent hub._
+
 ## Overview
 
 - `Chaos Risk Oracle` publishes automated risk parameter updates (caps, rates, ltv, …) on-chain.
