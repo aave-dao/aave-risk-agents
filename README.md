@@ -1,28 +1,60 @@
 # Aave Risk Agents
 
-Repository containing Aave Risk Agent contracts to be used by the [Chaos Agents](https://github.com/ChaosLabsInc/chaos-agents) middleware to consume automated risk param updates from Chaos Risk Oracle to inject into the Aave protocol. These agent contracts are designed to be lightweight and only contain validation / injection logic specific to the aave risk param update.
+Aave-specific agent contracts for automated risk parameter updates via the [Chaos Agents](https://github.com/ChaosLabsInc/chaos-agents) middleware.
 
-To know more about the Chaos Agents middleware, please check [this](https://github.com/ChaosLabsInc/chaos-agents).
+## About
+
+This repository contains lightweight agent contracts that validate and inject automated risk parameter updates from the Chaos Risk Oracle into Aave protocol. Each agent handles specific risk parameter types and includes Aave-specific validation logic.
+
+The agents require `RISK_ADMIN` role granted by Aave governance and are controlled through a single Aave agent hub.
+
+## System Architecture
+
+<img src="./agent-diagram-aave.svg" alt="Aave integration diagram" width="100%" height="100%">
+
+The system operates through three components:
+- **Chaos Risk Oracle** publishes automated risk parameter updates (caps, rates, ltv etc.) on-chain.
+- **Chaos Agents middleware** pulls oracle payloads, runs protocol checks, forwards to agents.
+- **Aave Risk Agents** validate payloads against Aave rules, execute protocol state changes.
+
+## Contracts
 
 This repository hosts the following Aave-specific agent implementations:
 
-- [AaveCapoAgent](src/contracts/agent/AaveCapoAgent.sol): Agent contract to validate / update CAPO feeds params (snapshot ratio, maxGrowthPercent).
-- [AaveCapsAgent](src/contracts/agent/AaveCapsAgent.sol): Agent contract to validate / update supply and borrow cap for assets.
-- [AaveDiscountRateAgent](src/contracts/agent/AaveDiscountRateAgent.sol): Agent contract to validate / update discount-rate on pendle pt feeds.
-- [AaveEModeAgent](src/contracts/agent/AaveEModeAgent.sol): Agent contract to validate / update E-Mode category parameters.
-- [AaveRatesAgent](src/contracts/agent/AaveRatesAgent.sol): Agent contract to validate / update interest rate strategy updates.
+| Agent | Purpose | Contract |
+|-------|---------|----------|
+| **CAPO Agent** | Validate/update CAPO feed parameters (snapshot ratio, maxGrowthPercent) | [AaveCapoAgent.sol](src/contracts/agent/AaveCapoAgent.sol) |
+| **Caps Agent** | Validate/update supply and borrow caps for assets | [AaveCapsAgent.sol](src/contracts/agent/AaveCapsAgent.sol) |
+| **Discount Rate Agent** | Validate/update discount-rate on Pendle PT feeds | [AaveDiscountRateAgent.sol](src/contracts/agent/AaveDiscountRateAgent.sol) |
+| **E-Mode Agent** | Validate/update E-Mode category parameters | [AaveEModeAgent.sol](src/contracts/agent/AaveEModeAgent.sol) |
+| **Rates Agent** | Validate/update interest rate strategy updates | [AaveRatesAgent.sol](src/contracts/agent/AaveRatesAgent.sol) |
 
-_Please note: These agent contracts are to be given the `RISK_ADMIN` role by the aave governance, and to be controlled by a single aave agent hub._
+**Note**: These agents require the `RISK_ADMIN` role from Aave governance and must be controlled by a single Aave agent hub.
 
-## Overview
+## Setup
 
-- `Chaos Risk Oracle` publishes automated risk parameter updates (caps, rates, ltv, …) on-chain.
-- `Chaos Agents` middleware pulls the oracle payloads, runs protocol-defined checks, and forwards updates to agent contracts.
-- `Aave Agent Contracts` (this repo) validate the payload against Aave-specific rules and execute state changes on the target protocol components.
+### Prerequisites
 
-The diagrams below provide a high-level view of the message flow and the Aave-specific deployment:
+- [Foundry](https://getfoundry.sh/)
 
-<img src="./agent-diagram-aave.svg" alt="Aave integration diagram" width="100%" height="100%">
+### Installation
+```bash
+forge install
+```
+
+### Build
+```bash
+forge build
+```
+
+### Test
+```bash
+forge test
+```
+
+## Related documentation
+
+- [Chaos Agents middleware](https://github.com/ChaosLabsInc/chaos-agents)
 
 ## License
 
