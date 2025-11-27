@@ -9,6 +9,8 @@ remappings = [
 solc = '0.8.27'
 optimizer = true
 optimizer_runs = 200
+evm_version = 'shanghai'
+bytecode_hash = 'none'
 ffi = true
 fs_permissions = [{ access = "write", path = "./reports" }]
 
@@ -26,6 +28,8 @@ zkevm = "${RPC_ZKEVM}"
 gnosis = "${RPC_GNOSIS}"
 bnb = "${RPC_BNB}"
 celo = "${RPC_CELO}"
+linea = "${RPC_LINEA}"
+plasma = "${RPC_PLASMA}"
 
 [etherscan]
 mainnet = { key="${ETHERSCAN_API_KEY_MAINNET}", chainId=1 }
@@ -40,5 +44,7 @@ zkevm = { key="${ETHERSCAN_API_KEY_ZKEVM}", chainId=1101 }
 gnosis = { key="${ETHERSCAN_API_KEY_GNOSIS}", chainId=100 }
 bnb = { key="${ETHERSCAN_API_KEY_BNB}", chainId=56 }
 celo = { key="${ETHERSCAN_API_KEY_CELO}", chainId=42220 }
+linea = { key="${ETHERSCAN_API_KEY_LINEA}", chain = 59144 }
+plasma = { key="any", chainId=9745 }
 
 # See more config options https://github.com/gakonst/foundry/tree/master/config
