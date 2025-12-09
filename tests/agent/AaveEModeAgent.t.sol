@@ -7,7 +7,7 @@ import {DataTypes} from 'aave-v3-origin/src/contracts/protocol/libraries/types/D
 import {RangeValidationModule, IRangeValidationModule} from 'chaos-agents/src/contracts/modules/RangeValidationModule.sol';
 import {BaseAgentTest, IAgentConfigurator} from 'chaos-agents/tests/agent/BaseAgentTest.sol';
 
-import {AaveEModeAgent} from '../../src/contracts/agent/AaveEModeAgent.sol';
+import {AaveEModeAgent, BaseAaveAgent} from '../../src/contracts/agent/AaveEModeAgent.sol';
 
 contract AaveEModeAgent_Test is BaseAgentTest('EModeCategoryUpdate'), TestnetProcedures {
   RangeValidationModule internal _rangeValidationModule;
@@ -236,6 +236,29 @@ contract AaveEModeAgent_Test is BaseAgentTest('EModeCategoryUpdate'), TestnetPro
     assertEq(currentEModeConfig.ltv, newLTV);
     assertEq(currentEModeConfig.liquidationThreshold, newLT);
     assertEq(currentEModeConfig.liquidationBonus - 100_00, newLB);
+  }
+
+  function test_invalidUpdateTypeOnAgentContract() public {
+    // mock the agent contract so it has different updateType than the one registered on the agent hub
+    address agentContractWithInvalidUpdateType = address(new AaveEModeAgent(
+      address(_agentHub),
+      address(_rangeValidationModule),
+      'WrongUpdateType',
+      address(contracts.poolProxy)
+    ));
+    vm.etch(address(_agent), agentContractWithInvalidUpdateType.code);
+
+    DataTypes.CollateralConfig memory currentEModeConfig = contracts
+      .poolProxy
+      .getEModeCategoryCollateralConfig(uint8(uint160(EMODE_MARKET)));
+
+    uint256 newLTV = currentEModeConfig.ltv + 50;
+    uint256 newLT = currentEModeConfig.liquidationThreshold + 50;
+    uint256 newLB = (currentEModeConfig.liquidationBonus - 100_00) + 50;
+    _addUpdateToRiskOracle(newLTV, newLT, newLB);
+
+    vm.expectRevert(abi.encodeWithSelector(BaseAaveAgent.InvalidUpdateType.selector, _updateType));
+    _checkAndPerformAutomation(_agentId);
   }
 
   function _addUpdateToRiskOracle(uint256 ltv, uint256 lt, uint256 lb) internal {

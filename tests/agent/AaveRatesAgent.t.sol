@@ -8,7 +8,7 @@ import {RangeValidationModule, IRangeValidationModule} from 'chaos-agents/src/co
 import {IAgentConfigurator} from 'chaos-agents/src/interfaces/IAgentHub.sol';
 import {BaseAgentTest} from 'chaos-agents/tests/agent/BaseAgentTest.sol';
 
-import {AaveRatesAgent, IDefaultInterestRateStrategyV2, IEngine} from '../../src/contracts/agent/AaveRatesAgent.sol';
+import {AaveRatesAgent, IDefaultInterestRateStrategyV2, IEngine, BaseAaveAgent} from '../../src/contracts/agent/AaveRatesAgent.sol';
 
 contract AaveRatesAgent_Test is BaseAgentTest('RateStrategyUpdate'), TestnetProcedures {
   RangeValidationModule internal _rangeValidationModule;
@@ -366,6 +366,31 @@ contract AaveRatesAgent_Test is BaseAgentTest('RateStrategyUpdate'), TestnetProc
       contracts.protocolDataProvider.getInterestRateStrategyAddress(address(weth))
     ).getInterestRateDataBps(address(weth)).variableRateSlope1;
     assertEq(currentSlopeOne, newSlopeOne);
+  }
+
+  function test_invalidUpdateTypeOnAgentContract() public {
+    // mock the agent contract so it has different updateType than the one registered on the agent hub
+    address agentContractWithInvalidUpdateType = address(new AaveRatesAgent(
+      address(_agentHub),
+      address(_rangeValidationModule),
+      'WrongUpdateType',
+      address(contracts.poolProxy)
+    ));
+    vm.etch(address(_agent), agentContractWithInvalidUpdateType.code);
+
+    uint256 currentSlopeOne = IDefaultInterestRateStrategyV2(
+      contracts.protocolDataProvider.getInterestRateStrategyAddress(address(weth))
+    ).getInterestRateDataBps(address(weth)).variableRateSlope1;
+    uint256 newSlopeOne = currentSlopeOne + 1_00;
+    _addUpdateToRiskOracle(
+      EngineFlags.KEEP_CURRENT,
+      EngineFlags.KEEP_CURRENT,
+      newSlopeOne,
+      EngineFlags.KEEP_CURRENT
+    );
+
+    vm.expectRevert(abi.encodeWithSelector(BaseAaveAgent.InvalidUpdateType.selector, _updateType));
+    _checkAndPerformAutomation(_agentId);
   }
 
   function _addUpdateToRiskOracle(

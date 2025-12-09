@@ -6,7 +6,7 @@ import {PendlePriceCapAdapter, IPendlePriceCapAdapter} from 'aave-capo/contracts
 import {RangeValidationModule, IRangeValidationModule} from 'chaos-agents/src/contracts/modules/RangeValidationModule.sol';
 import {IAgentConfigurator, BaseAgentTest} from 'chaos-agents/tests/agent/BaseAgentTest.sol';
 
-import {AaveDiscountRateAgent} from '../../src/contracts/agent/AaveDiscountRateAgent.sol';
+import {AaveDiscountRateAgent, BaseAaveAgent} from '../../src/contracts/agent/AaveDiscountRateAgent.sol';
 
 contract AaveDiscountRateAgent_Test is
   BaseAgentTest('PendleDiscountRateUpdate'),
@@ -153,6 +153,25 @@ contract AaveDiscountRateAgent_Test is
 
     currentDiscount = _pendleAdapter.discountRatePerYear();
     assertEq(currentDiscount, newDiscountRate);
+  }
+
+  function test_invalidUpdateTypeOnAgentContract() public {
+    // mock the agent contract so it has different updateType than the one registered on the agent hub
+    address agentContractWithInvalidUpdateType = address(new AaveDiscountRateAgent(
+      address(_agentHub),
+      address(_rangeValidationModule),
+      'WrongUpdateType',
+      address(contracts.poolProxy),
+      address(contracts.aaveOracle)
+    ));
+    vm.etch(address(_agent), agentContractWithInvalidUpdateType.code);
+
+    uint256 currentDiscount = _pendleAdapter.discountRatePerYear();
+    uint256 newDiscountRate = currentDiscount + 0.01e18; // 1% relative increase
+    _addUpdateToRiskOracle(newDiscountRate);
+
+    vm.expectRevert(abi.encodeWithSelector(BaseAaveAgent.InvalidUpdateType.selector, _updateType));
+    _checkAndPerformAutomation(_agentId);
   }
 
   function _addUpdateToRiskOracle(uint256 discountRate) internal {
