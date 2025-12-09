@@ -7,8 +7,9 @@ library DeployRatesAgent {
   function deploy(
     address agentHub,
     address rangeValidationModule,
+    string memory updateType,
     address pool
   ) internal {
-    new AaveRatesAgent(agentHub, rangeValidationModule, pool);
+    new AaveRatesAgent(agentHub, rangeValidationModule, updateType, pool);
   }
 }

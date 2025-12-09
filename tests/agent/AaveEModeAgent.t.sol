@@ -36,6 +36,7 @@ contract AaveEModeAgent_Test is BaseAgentTest('EModeCategoryUpdate'), TestnetPro
         new AaveEModeAgent(
           address(_agentHub),
           address(_rangeValidationModule),
+          _updateType,
           address(contracts.poolProxy)
         )
       );

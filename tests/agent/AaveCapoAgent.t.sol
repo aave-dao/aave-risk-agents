@@ -49,6 +49,7 @@ contract AaveCapoAgent_Test is BaseAgentTest('CapoPriceCapUpdate'), TestnetProce
         new AaveCapoAgent(
           address(_agentHub),
           address(_rangeValidationModule),
+          _updateType,
           address(contracts.poolProxy),
           address(contracts.aaveOracle)
         )

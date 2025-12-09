@@ -36,6 +36,7 @@ contract AaveRatesAgent_Test is BaseAgentTest('RateStrategyUpdate'), TestnetProc
         new AaveRatesAgent(
           address(_agentHub),
           address(_rangeValidationModule),
+          _updateType,
           address(contracts.poolProxy)
         )
       );

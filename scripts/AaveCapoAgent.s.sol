@@ -7,9 +7,10 @@ library DeployCapoAgent {
   function deploy(
     address agentHub,
     address rangeValidationModule,
+    string memory updateType,
     address pool,
     address aaveOracle
   ) internal {
-    new AaveCapoAgent(agentHub, rangeValidationModule, pool, aaveOracle);
+    new AaveCapoAgent(agentHub, rangeValidationModule, updateType, pool, aaveOracle);
   }
 }

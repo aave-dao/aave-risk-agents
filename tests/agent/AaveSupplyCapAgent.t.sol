@@ -6,7 +6,7 @@ import {RangeValidationModule, IRangeValidationModule} from 'chaos-agents/src/co
 import {IAgentConfigurator} from 'chaos-agents/src/interfaces/IAgentHub.sol';
 import {BaseAgentTest} from 'chaos-agents/tests/agent/BaseAgentTest.sol';
 
-import {AaveCapsAgent} from '../../src/contracts/agent/AaveCapsAgent.sol';
+import {AaveSupplyCapAgent} from '../../src/contracts/agent/AaveSupplyCapAgent.sol';
 
 contract AaveSupplyCap_Test is BaseAgentTest('SupplyCapUpdate'), TestnetProcedures {
   RangeValidationModule public _rangeValidationModule;
@@ -28,9 +28,10 @@ contract AaveSupplyCap_Test is BaseAgentTest('SupplyCapUpdate'), TestnetProcedur
 
     return
       address(
-        new AaveCapsAgent(
+        new AaveSupplyCapAgent(
           address(_agentHub),
           address(_rangeValidationModule),
+          _updateType,
           address(contracts.poolProxy)
         )
       );

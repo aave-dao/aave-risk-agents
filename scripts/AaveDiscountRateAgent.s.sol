@@ -7,9 +7,10 @@ library DeployDiscountRateAgent {
   function deploy(
     address agentHub,
     address rangeValidationModule,
+    string memory updateType,
     address pool,
     address aaveOracle
   ) internal {
-    new AaveDiscountRateAgent(agentHub, rangeValidationModule, pool, aaveOracle);
+    new AaveDiscountRateAgent(agentHub, rangeValidationModule, updateType, pool, aaveOracle);
   }
 }

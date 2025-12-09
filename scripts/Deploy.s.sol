@@ -24,7 +24,8 @@ import {AaveV3Base} from 'aave-address-book/AaveV3Base.sol';
 import {MiscAvalanche} from 'aave-address-book/MiscAvalanche.sol';
 import {AaveV3Avalanche} from 'aave-address-book/AaveV3Avalanche.sol';
 
-import {DeployCapsAgent} from './AaveCapsAgent.s.sol';
+import {DeploySupplyCapAgent} from './AaveSupplyCapAgent.s.sol';
+import {DeployBorrowCapAgent} from './AaveBorrowCapAgent.s.sol';
 import {DeployDiscountRateAgent} from './AaveDiscountRateAgent.s.sol';
 import {DeployEModeAgent} from './AaveEModeAgent.s.sol';
 import {DeployRatesAgent} from './AaveRatesAgent.s.sol';
@@ -35,12 +36,14 @@ contract DeployEthereum is EthereumScript {
     DeployDiscountRateAgent.deploy(
       MiscEthereum.AGENT_HUB,
       MiscEthereum.RANGE_VALIDATION_MODULE,
+      'PendleDiscountRateUpdate_Core',
       address(AaveV3Ethereum.POOL),
       address(AaveV3Ethereum.ORACLE)
     );
     DeployEModeAgent.deploy(
       MiscEthereum.AGENT_HUB,
       MiscEthereum.RANGE_VALIDATION_MODULE,
+      'EModeCategoryUpdate_Core',
       address(AaveV3Ethereum.POOL)
     );
 
@@ -48,12 +51,14 @@ contract DeployEthereum is EthereumScript {
     DeployRatesAgent.deploy(
       MiscEthereum.AGENT_HUB,
       MiscEthereum.RANGE_VALIDATION_MODULE,
+      'RateStrategyUpdate_Core',
       address(AaveV3Ethereum.POOL)
     );
     // prime
     DeployRatesAgent.deploy(
       MiscEthereum.AGENT_HUB,
       MiscEthereum.RANGE_VALIDATION_MODULE,
+      'RateStrategyUpdate_Prime',
       address(AaveV3EthereumLido.POOL)
     );
   }
@@ -62,9 +67,16 @@ contract DeployEthereum is EthereumScript {
 // make deploy-ledger contract=scripts/Deploy.s.sol:DeployArbitrum chain=arbitrum
 contract DeployArbitrum is ArbitrumScript {
   function run() external broadcast {
-    DeployCapsAgent.deploy(
+    DeploySupplyCapAgent.deploy(
       MiscArbitrum.AGENT_HUB,
       MiscArbitrum.RANGE_VALIDATION_MODULE,
+      'SupplyCapUpdate',
+      address(AaveV3Arbitrum.POOL)
+    );
+    DeployBorrowCapAgent.deploy(
+      MiscArbitrum.AGENT_HUB,
+      MiscArbitrum.RANGE_VALIDATION_MODULE,
+      'BorrowCapUpdate',
       address(AaveV3Arbitrum.POOL)
     );
   }
@@ -73,9 +85,16 @@ contract DeployArbitrum is ArbitrumScript {
 // make deploy-ledger contract=scripts/Deploy.s.sol:DeployAvalanche chain=avalanche
 contract DeployAvalanche is AvalancheScript {
   function run() external broadcast {
-    DeployCapsAgent.deploy(
+    DeploySupplyCapAgent.deploy(
       MiscAvalanche.AGENT_HUB,
       MiscAvalanche.RANGE_VALIDATION_MODULE,
+      'SupplyCapUpdate',
+      address(AaveV3Avalanche.POOL)
+    );
+    DeployBorrowCapAgent.deploy(
+      MiscAvalanche.AGENT_HUB,
+      MiscAvalanche.RANGE_VALIDATION_MODULE,
+      'BorrowCapUpdate',
       address(AaveV3Avalanche.POOL)
     );
   }
@@ -84,9 +103,16 @@ contract DeployAvalanche is AvalancheScript {
 // make deploy-ledger contract=scripts/Deploy.s.sol:DeployBase chain=base
 contract DeployBase is BaseScript {
   function run() external broadcast {
-    DeployCapsAgent.deploy(
+    DeploySupplyCapAgent.deploy(
       MiscBase.AGENT_HUB,
       MiscBase.RANGE_VALIDATION_MODULE,
+      'SupplyCapUpdate',
+      address(AaveV3Base.POOL)
+    );
+    DeployBorrowCapAgent.deploy(
+      MiscBase.AGENT_HUB,
+      MiscBase.RANGE_VALIDATION_MODULE,
+      'BorrowCapUpdate',
       address(AaveV3Base.POOL)
     );
   }
@@ -95,9 +121,16 @@ contract DeployBase is BaseScript {
 // make deploy-ledger contract=scripts/Deploy.s.sol:DeployBNB chain=bnb
 contract DeployBNB is BNBScript {
   function run() external broadcast {
-    DeployCapsAgent.deploy(
+    DeploySupplyCapAgent.deploy(
       MiscBNB.AGENT_HUB,
       MiscBNB.RANGE_VALIDATION_MODULE,
+      'SupplyCapUpdate',
+      address(AaveV3BNB.POOL)
+    );
+    DeployBorrowCapAgent.deploy(
+      MiscBNB.AGENT_HUB,
+      MiscBNB.RANGE_VALIDATION_MODULE,
+      'BorrowCapUpdate',
       address(AaveV3BNB.POOL)
     );
   }
@@ -106,9 +139,16 @@ contract DeployBNB is BNBScript {
 // make deploy-ledger contract=scripts/Deploy.s.sol:DeployGnosis chain=gnosis
 contract DeployGnosis is GnosisScript {
   function run() external broadcast {
-    DeployCapsAgent.deploy(
+    DeploySupplyCapAgent.deploy(
       MiscGnosis.AGENT_HUB,
       MiscGnosis.RANGE_VALIDATION_MODULE,
+      'SupplyCapUpdate',
+      address(AaveV3Gnosis.POOL)
+    );
+    DeployBorrowCapAgent.deploy(
+      MiscGnosis.AGENT_HUB,
+      MiscGnosis.RANGE_VALIDATION_MODULE,
+      'BorrowCapUpdate',
       address(AaveV3Gnosis.POOL)
     );
   }
@@ -117,9 +157,16 @@ contract DeployGnosis is GnosisScript {
 // make deploy-ledger contract=scripts/Deploy.s.sol:DeployOptimism chain=optimism
 contract DeployOptimism is OptimismScript {
   function run() external broadcast {
-    DeployCapsAgent.deploy(
+    DeploySupplyCapAgent.deploy(
       MiscOptimism.AGENT_HUB,
       MiscOptimism.RANGE_VALIDATION_MODULE,
+      'SupplyCapUpdate',
+      address(AaveV3Optimism.POOL)
+    );
+    DeployBorrowCapAgent.deploy(
+      MiscOptimism.AGENT_HUB,
+      MiscOptimism.RANGE_VALIDATION_MODULE,
+      'BorrowCapUpdate',
       address(AaveV3Optimism.POOL)
     );
   }
@@ -128,9 +175,16 @@ contract DeployOptimism is OptimismScript {
 // make deploy-ledger contract=scripts/Deploy.s.sol:DeployPolygon chain=polygon
 contract DeployPolygon is PolygonScript {
   function run() external broadcast {
-    DeployCapsAgent.deploy(
+    DeploySupplyCapAgent.deploy(
       MiscPolygon.AGENT_HUB,
       MiscPolygon.RANGE_VALIDATION_MODULE,
+      'SupplyCapUpdate',
+      address(AaveV3Polygon.POOL)
+    );
+    DeployBorrowCapAgent.deploy(
+      MiscPolygon.AGENT_HUB,
+      MiscPolygon.RANGE_VALIDATION_MODULE,
+      'BorrowCapUpdate',
       address(AaveV3Polygon.POOL)
     );
   }
@@ -142,12 +196,14 @@ contract DeployPlasma is PlasmaScript {
     DeployDiscountRateAgent.deploy(
       MiscPlasma.AGENT_HUB,
       MiscPlasma.RANGE_VALIDATION_MODULE,
+      'PendleDiscountRateUpdate',
       address(AaveV3Plasma.POOL),
       address(AaveV3Plasma.ORACLE)
     );
     DeployEModeAgent.deploy(
       MiscPlasma.AGENT_HUB,
       MiscPlasma.RANGE_VALIDATION_MODULE,
+      'EModeCategoryUpdate',
       address(AaveV3Plasma.POOL)
     );
   }
@@ -159,6 +215,7 @@ contract DeployLinea is LineaScript {
     DeployRatesAgent.deploy(
       MiscLinea.AGENT_HUB,
       MiscLinea.RANGE_VALIDATION_MODULE,
+      'RateStrategyUpdate',
       address(AaveV3Linea.POOL)
     );
   }

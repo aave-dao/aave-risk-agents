@@ -26,24 +26,26 @@ contract AaveDiscountRateAgent is BaseAaveAgent {
   /**
    * @param agentHub the address of the agentHub which will use this agent contract
    * @param rangeValidationModule the address of range validation module used to store range config and to validate ranges
+   * @param updateType the updateType of the agent contract
    * @param pool the address of aave pool
    * @param aaveOracle the address of aave oracle of the instance
    */
   constructor(
     address agentHub,
     address rangeValidationModule,
+    string memory updateType,
     address pool,
     address aaveOracle
-  ) BaseAaveAgent(agentHub, rangeValidationModule, pool) {
+  ) BaseAaveAgent(agentHub, rangeValidationModule, updateType, pool) {
     AAVE_ORACLE = IAaveOracle(aaveOracle);
   }
 
-  /// @inheritdoc BaseAgent
-  function validate(
+  /// @inheritdoc BaseAaveAgent
+  function _validateUpdate(
     uint256 agentId,
     bytes calldata,
     IRiskOracle.RiskParameterUpdate calldata update
-  ) external view override returns (bool) {
+  ) internal view override returns (bool) {
     uint256 currentDiscountRate = IPendlePriceCapAdapter(
       AAVE_ORACLE.getSourceOfAsset(update.market)
     ).discountRatePerYear();

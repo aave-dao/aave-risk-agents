@@ -45,6 +45,7 @@ contract AaveDiscountRateAgent_Test is
         new AaveDiscountRateAgent(
           address(_agentHub),
           address(_rangeValidationModule),
+          _updateType,
           address(contracts.poolProxy),
           address(contracts.aaveOracle)
         )
