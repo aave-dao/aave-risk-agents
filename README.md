@@ -13,6 +13,7 @@ The agents require `RISK_ADMIN` role granted by Aave governance and are controll
 <img src="./agent-diagram-aave.svg" alt="Aave integration diagram" width="100%" height="100%">
 
 The system operates through three components:
+
 - **Chaos Risk Oracle** publishes automated risk parameter updates (caps, rates, ltv etc.) on-chain.
 - **Chaos Agents middleware** pulls oracle payloads, runs protocol checks, forwards to agents.
 - **Aave Risk Agents** validate payloads against Aave rules, execute protocol state changes.
@@ -21,13 +22,14 @@ The system operates through three components:
 
 This repository hosts the following Aave-specific agent implementations:
 
-| Agent | Purpose | Contract |
-|-------|---------|----------|
-| **CAPO Agent** | Validate/update CAPO feed parameters (snapshot ratio, maxGrowthPercent) | [AaveCapoAgent.sol](src/contracts/agent/AaveCapoAgent.sol) |
-| **Caps Agent** | Validate/update supply and borrow caps for assets | [AaveCapsAgent.sol](src/contracts/agent/AaveCapsAgent.sol) |
-| **Discount Rate Agent** | Validate/update discount-rate on Pendle PT feeds | [AaveDiscountRateAgent.sol](src/contracts/agent/AaveDiscountRateAgent.sol) |
-| **E-Mode Agent** | Validate/update E-Mode category parameters | [AaveEModeAgent.sol](src/contracts/agent/AaveEModeAgent.sol) |
-| **Rates Agent** | Validate/update interest rate strategy updates | [AaveRatesAgent.sol](src/contracts/agent/AaveRatesAgent.sol) |
+| Agent                   | Purpose                                                                 | Contract                                                                   |
+| ----------------------- | ----------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| **CAPO Agent**          | Validate/update CAPO feed parameters (snapshot ratio, maxGrowthPercent) | [AaveCapoAgent.sol](src/contracts/agent/AaveCapoAgent.sol)                 |
+| **Supply Cap Agent**    | Validate/update supply caps for assets                                  | [AaveSupplyCapAgent.sol](src/contracts/agent/AaveSupplyCapAgent.sol)       |
+| **Borrow Cap Agent**    | Validate/update borrow caps for assets                                  | [AaveBorrowCapAgent.sol](src/contracts/agent/AaveBorrowCapAgent.sol)       |
+| **Discount Rate Agent** | Validate/update discount-rate on Pendle PT feeds                        | [AaveDiscountRateAgent.sol](src/contracts/agent/AaveDiscountRateAgent.sol) |
+| **E-Mode Agent**        | Validate/update E-Mode category parameters                              | [AaveEModeAgent.sol](src/contracts/agent/AaveEModeAgent.sol)               |
+| **Rates Agent**         | Validate/update interest rate strategy updates                          | [AaveRatesAgent.sol](src/contracts/agent/AaveRatesAgent.sol)               |
 
 **Note**: These agents require the `RISK_ADMIN` role from Aave governance and must be controlled by a single Aave agent hub.
 
@@ -38,16 +40,19 @@ This repository hosts the following Aave-specific agent implementations:
 - [Foundry](https://getfoundry.sh/)
 
 ### Installation
+
 ```bash
 forge install
 ```
 
 ### Build
+
 ```bash
 forge build
 ```
 
 ### Test
+
 ```bash
 forge test
 ```
