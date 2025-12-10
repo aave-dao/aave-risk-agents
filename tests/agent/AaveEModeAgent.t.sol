@@ -36,7 +36,7 @@ contract AaveEModeAgent_Test is BaseAgentTest('EModeCategoryUpdate'), TestnetPro
         new AaveEModeAgent(
           address(_agentHub),
           address(_rangeValidationModule),
-          _updateType,
+          '',
           address(contracts.poolProxy)
         )
       );
@@ -243,7 +243,7 @@ contract AaveEModeAgent_Test is BaseAgentTest('EModeCategoryUpdate'), TestnetPro
     address agentContractWithInvalidUpdateType = address(new AaveEModeAgent(
       address(_agentHub),
       address(_rangeValidationModule),
-      'WrongUpdateType',
+      'wrong',
       address(contracts.poolProxy)
     ));
     vm.etch(address(_agent), agentContractWithInvalidUpdateType.code);

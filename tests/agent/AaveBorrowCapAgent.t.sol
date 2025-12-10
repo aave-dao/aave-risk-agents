@@ -30,7 +30,7 @@ contract AaveBorrowCap_Test is BaseAgentTest('BorrowCapUpdate'), TestnetProcedur
         new AaveBorrowCapAgent(
           address(_agentHub),
           address(_rangeValidationModule),
-          _updateType,
+          '',
           address(contracts.poolProxy)
         )
       );
@@ -115,7 +115,7 @@ contract AaveBorrowCap_Test is BaseAgentTest('BorrowCapUpdate'), TestnetProcedur
     address agentContractWithInvalidUpdateType = address(new AaveBorrowCapAgent(
       address(_agentHub),
       address(_rangeValidationModule),
-      'WrongUpdateType',
+      'wrong',
       address(contracts.poolProxy)
     ));
     vm.etch(address(_agent), agentContractWithInvalidUpdateType.code);

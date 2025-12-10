@@ -31,7 +31,7 @@ contract AaveSupplyCap_Test is BaseAgentTest('SupplyCapUpdate'), TestnetProcedur
         new AaveSupplyCapAgent(
           address(_agentHub),
           address(_rangeValidationModule),
-          _updateType,
+          '',
           address(contracts.poolProxy)
         )
       );
@@ -116,7 +116,7 @@ contract AaveSupplyCap_Test is BaseAgentTest('SupplyCapUpdate'), TestnetProcedur
     address agentContractWithInvalidUpdateType = address(new AaveSupplyCapAgent(
       address(_agentHub),
       address(_rangeValidationModule),
-      'WrongUpdateType',
+      'wrong',
       address(contracts.poolProxy)
     ));
     vm.etch(address(_agent), agentContractWithInvalidUpdateType.code);

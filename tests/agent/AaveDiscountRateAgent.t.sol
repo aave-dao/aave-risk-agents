@@ -45,7 +45,7 @@ contract AaveDiscountRateAgent_Test is
         new AaveDiscountRateAgent(
           address(_agentHub),
           address(_rangeValidationModule),
-          _updateType,
+          '',
           address(contracts.poolProxy),
           address(contracts.aaveOracle)
         )
@@ -160,7 +160,7 @@ contract AaveDiscountRateAgent_Test is
     address agentContractWithInvalidUpdateType = address(new AaveDiscountRateAgent(
       address(_agentHub),
       address(_rangeValidationModule),
-      'WrongUpdateType',
+      'wrong',
       address(contracts.poolProxy),
       address(contracts.aaveOracle)
     ));

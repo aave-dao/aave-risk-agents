@@ -36,7 +36,7 @@ contract AaveRatesAgent_Test is BaseAgentTest('RateStrategyUpdate'), TestnetProc
         new AaveRatesAgent(
           address(_agentHub),
           address(_rangeValidationModule),
-          _updateType,
+          '',
           address(contracts.poolProxy)
         )
       );
@@ -373,7 +373,7 @@ contract AaveRatesAgent_Test is BaseAgentTest('RateStrategyUpdate'), TestnetProc
     address agentContractWithInvalidUpdateType = address(new AaveRatesAgent(
       address(_agentHub),
       address(_rangeValidationModule),
-      'WrongUpdateType',
+      'wrong',
       address(contracts.poolProxy)
     ));
     vm.etch(address(_agent), agentContractWithInvalidUpdateType.code);

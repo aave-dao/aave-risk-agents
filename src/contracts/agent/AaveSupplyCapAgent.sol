@@ -23,15 +23,15 @@ contract AaveSupplyCapAgent is BaseAaveAgent {
   /**
    * @param agentHub the address of the agentHub which will use this agent contract
    * @param rangeValidationModule the address of range validation module used to store range config and to validate ranges
-   * @param updateType the updateType of the agent contract
+   * @param updateTypeSuffix the updateType suffix to append, useful for networks where we have multiple instances, ex. Core and Prime on mainnet.
    * @param pool the address of aave pool
    */
   constructor(
     address agentHub,
     address rangeValidationModule,
-    string memory updateType,
+    string memory updateTypeSuffix,
     address pool
-  ) BaseAaveAgent(agentHub, rangeValidationModule, updateType, pool) {}
+  ) BaseAaveAgent(agentHub, rangeValidationModule, string.concat('SupplyCapUpdate', updateTypeSuffix), pool) {}
 
   /// @inheritdoc BaseAaveAgent
   function _validateUpdate(

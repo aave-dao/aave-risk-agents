@@ -36,14 +36,14 @@ contract DeployEthereum is EthereumScript {
     DeployDiscountRateAgent.deploy(
       MiscEthereum.AGENT_HUB,
       MiscEthereum.RANGE_VALIDATION_MODULE,
-      'PendleDiscountRateUpdate_Core',
+      '_Core',
       address(AaveV3Ethereum.POOL),
       address(AaveV3Ethereum.ORACLE)
     );
     DeployEModeAgent.deploy(
       MiscEthereum.AGENT_HUB,
       MiscEthereum.RANGE_VALIDATION_MODULE,
-      'EModeCategoryUpdate_Core',
+      '_Core',
       address(AaveV3Ethereum.POOL)
     );
 
@@ -51,14 +51,14 @@ contract DeployEthereum is EthereumScript {
     DeployRatesAgent.deploy(
       MiscEthereum.AGENT_HUB,
       MiscEthereum.RANGE_VALIDATION_MODULE,
-      'RateStrategyUpdate_Core',
+      '_Core',
       address(AaveV3Ethereum.POOL)
     );
     // prime
     DeployRatesAgent.deploy(
       MiscEthereum.AGENT_HUB,
       MiscEthereum.RANGE_VALIDATION_MODULE,
-      'RateStrategyUpdate_Prime',
+      '_Prime',
       address(AaveV3EthereumLido.POOL)
     );
   }
@@ -70,13 +70,13 @@ contract DeployArbitrum is ArbitrumScript {
     DeploySupplyCapAgent.deploy(
       MiscArbitrum.AGENT_HUB,
       MiscArbitrum.RANGE_VALIDATION_MODULE,
-      'SupplyCapUpdate',
+      '',
       address(AaveV3Arbitrum.POOL)
     );
     DeployBorrowCapAgent.deploy(
       MiscArbitrum.AGENT_HUB,
       MiscArbitrum.RANGE_VALIDATION_MODULE,
-      'BorrowCapUpdate',
+      '',
       address(AaveV3Arbitrum.POOL)
     );
   }
@@ -88,13 +88,13 @@ contract DeployAvalanche is AvalancheScript {
     DeploySupplyCapAgent.deploy(
       MiscAvalanche.AGENT_HUB,
       MiscAvalanche.RANGE_VALIDATION_MODULE,
-      'SupplyCapUpdate',
+      '',
       address(AaveV3Avalanche.POOL)
     );
     DeployBorrowCapAgent.deploy(
       MiscAvalanche.AGENT_HUB,
       MiscAvalanche.RANGE_VALIDATION_MODULE,
-      'BorrowCapUpdate',
+      '',
       address(AaveV3Avalanche.POOL)
     );
   }
@@ -106,13 +106,13 @@ contract DeployBase is BaseScript {
     DeploySupplyCapAgent.deploy(
       MiscBase.AGENT_HUB,
       MiscBase.RANGE_VALIDATION_MODULE,
-      'SupplyCapUpdate',
+      '',
       address(AaveV3Base.POOL)
     );
     DeployBorrowCapAgent.deploy(
       MiscBase.AGENT_HUB,
       MiscBase.RANGE_VALIDATION_MODULE,
-      'BorrowCapUpdate',
+      '',
       address(AaveV3Base.POOL)
     );
   }
@@ -124,13 +124,13 @@ contract DeployBNB is BNBScript {
     DeploySupplyCapAgent.deploy(
       MiscBNB.AGENT_HUB,
       MiscBNB.RANGE_VALIDATION_MODULE,
-      'SupplyCapUpdate',
+      '',
       address(AaveV3BNB.POOL)
     );
     DeployBorrowCapAgent.deploy(
       MiscBNB.AGENT_HUB,
       MiscBNB.RANGE_VALIDATION_MODULE,
-      'BorrowCapUpdate',
+      '',
       address(AaveV3BNB.POOL)
     );
   }
@@ -142,13 +142,13 @@ contract DeployGnosis is GnosisScript {
     DeploySupplyCapAgent.deploy(
       MiscGnosis.AGENT_HUB,
       MiscGnosis.RANGE_VALIDATION_MODULE,
-      'SupplyCapUpdate',
+      '',
       address(AaveV3Gnosis.POOL)
     );
     DeployBorrowCapAgent.deploy(
       MiscGnosis.AGENT_HUB,
       MiscGnosis.RANGE_VALIDATION_MODULE,
-      'BorrowCapUpdate',
+      '',
       address(AaveV3Gnosis.POOL)
     );
   }
@@ -160,13 +160,13 @@ contract DeployOptimism is OptimismScript {
     DeploySupplyCapAgent.deploy(
       MiscOptimism.AGENT_HUB,
       MiscOptimism.RANGE_VALIDATION_MODULE,
-      'SupplyCapUpdate',
+      '',
       address(AaveV3Optimism.POOL)
     );
     DeployBorrowCapAgent.deploy(
       MiscOptimism.AGENT_HUB,
       MiscOptimism.RANGE_VALIDATION_MODULE,
-      'BorrowCapUpdate',
+      '',
       address(AaveV3Optimism.POOL)
     );
   }
@@ -178,13 +178,13 @@ contract DeployPolygon is PolygonScript {
     DeploySupplyCapAgent.deploy(
       MiscPolygon.AGENT_HUB,
       MiscPolygon.RANGE_VALIDATION_MODULE,
-      'SupplyCapUpdate',
+      '',
       address(AaveV3Polygon.POOL)
     );
     DeployBorrowCapAgent.deploy(
       MiscPolygon.AGENT_HUB,
       MiscPolygon.RANGE_VALIDATION_MODULE,
-      'BorrowCapUpdate',
+      '',
       address(AaveV3Polygon.POOL)
     );
   }
@@ -196,14 +196,14 @@ contract DeployPlasma is PlasmaScript {
     DeployDiscountRateAgent.deploy(
       MiscPlasma.AGENT_HUB,
       MiscPlasma.RANGE_VALIDATION_MODULE,
-      'PendleDiscountRateUpdate',
+      '',
       address(AaveV3Plasma.POOL),
       address(AaveV3Plasma.ORACLE)
     );
     DeployEModeAgent.deploy(
       MiscPlasma.AGENT_HUB,
       MiscPlasma.RANGE_VALIDATION_MODULE,
-      'EModeCategoryUpdate',
+      '',
       address(AaveV3Plasma.POOL)
     );
   }
@@ -215,7 +215,7 @@ contract DeployLinea is LineaScript {
     DeployRatesAgent.deploy(
       MiscLinea.AGENT_HUB,
       MiscLinea.RANGE_VALIDATION_MODULE,
-      'RateStrategyUpdate',
+      '',
       address(AaveV3Linea.POOL)
     );
   }
