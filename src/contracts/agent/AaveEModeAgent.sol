@@ -32,20 +32,22 @@ contract AaveEModeAgent is BaseAaveAgent {
   /**
    * @param agentHub the address of the agentHub which will use this agent contract
    * @param rangeValidationModule the address of range validation module used to store range config and to validate ranges
+   * @param updateTypeSuffix the updateType suffix to append, useful for networks where we have multiple instances, ex. Core and Prime on mainnet.
    * @param pool the address of aave pool
    */
   constructor(
     address agentHub,
     address rangeValidationModule,
+    string memory updateTypeSuffix,
     address pool
-  ) BaseAaveAgent(agentHub, rangeValidationModule, pool) {}
+  ) BaseAaveAgent(agentHub, rangeValidationModule, 'EModeCategoryUpdate', updateTypeSuffix, pool) {}
 
-  /// @inheritdoc BaseAgent
-  function validate(
+  /// @inheritdoc BaseAaveAgent
+  function _validateUpdate(
     uint256 agentId,
     bytes calldata,
     IRiskOracle.RiskParameterUpdate calldata update
-  ) external view override returns (bool) {
+  ) internal view override returns (bool) {
     // eMode category id is encoded in the market address
     uint8 eModeId = uint160(update.market).toUint8();
 

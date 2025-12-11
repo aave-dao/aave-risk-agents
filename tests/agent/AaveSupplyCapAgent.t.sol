@@ -6,7 +6,7 @@ import {RangeValidationModule, IRangeValidationModule} from 'chaos-agents/src/co
 import {IAgentConfigurator} from 'chaos-agents/src/interfaces/IAgentHub.sol';
 import {BaseAgentTest} from 'chaos-agents/tests/agent/BaseAgentTest.sol';
 
-import {AaveCapsAgent} from '../../src/contracts/agent/AaveCapsAgent.sol';
+import {AaveSupplyCapAgent, BaseAaveAgent} from '../../src/contracts/agent/AaveSupplyCapAgent.sol';
 
 contract AaveSupplyCap_Test is BaseAgentTest('SupplyCapUpdate'), TestnetProcedures {
   RangeValidationModule public _rangeValidationModule;
@@ -28,9 +28,10 @@ contract AaveSupplyCap_Test is BaseAgentTest('SupplyCapUpdate'), TestnetProcedur
 
     return
       address(
-        new AaveCapsAgent(
+        new AaveSupplyCapAgent(
           address(_agentHub),
           address(_rangeValidationModule),
+          '',
           address(contracts.poolProxy)
         )
       );
@@ -108,6 +109,23 @@ contract AaveSupplyCap_Test is BaseAgentTest('SupplyCapUpdate'), TestnetProcedur
     assertTrue(_checkAndPerformAutomation(_agentId));
     (, currentSupplyCap) = contracts.protocolDataProvider.getReserveCaps(address(weth));
     assertEq(currentSupplyCap, newSupplyCap);
+  }
+
+  function test_invalidUpdateTypeOnAgentContract() public {
+    // mock the agent contract so it has different updateType than the one registered on the agent hub
+    address agentContractWithInvalidUpdateType = address(new AaveSupplyCapAgent(
+      address(_agentHub),
+      address(_rangeValidationModule),
+      'wrong',
+      address(contracts.poolProxy)
+    ));
+    vm.etch(address(_agent), agentContractWithInvalidUpdateType.code);
+
+    (, uint256 currentSupplyCap) = contracts.protocolDataProvider.getReserveCaps(address(weth));
+    _addUpdateToRiskOracle(currentSupplyCap * 2); // 100% relative increase
+
+    vm.expectRevert(abi.encodeWithSelector(BaseAaveAgent.InvalidUpdateType.selector, _updateType));
+    _checkAndPerformAutomation(_agentId);
   }
 
   function _addUpdateToRiskOracle(uint256 cap) internal {

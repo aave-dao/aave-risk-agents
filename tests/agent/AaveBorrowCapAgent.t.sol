@@ -6,7 +6,7 @@ import {RangeValidationModule, IRangeValidationModule} from 'chaos-agents/src/co
 import {IAgentConfigurator} from 'chaos-agents/src/interfaces/IAgentHub.sol';
 import {BaseAgentTest} from 'chaos-agents/tests/agent/BaseAgentTest.sol';
 
-import {AaveCapsAgent} from '../../src/contracts/agent/AaveCapsAgent.sol';
+import {AaveBorrowCapAgent, BaseAaveAgent} from '../../src/contracts/agent/AaveBorrowCapAgent.sol';
 
 contract AaveBorrowCap_Test is BaseAgentTest('BorrowCapUpdate'), TestnetProcedures {
   RangeValidationModule internal _rangeValidationModule;
@@ -27,9 +27,10 @@ contract AaveBorrowCap_Test is BaseAgentTest('BorrowCapUpdate'), TestnetProcedur
     _rangeValidationModule = new RangeValidationModule();
     return
       address(
-        new AaveCapsAgent(
+        new AaveBorrowCapAgent(
           address(_agentHub),
           address(_rangeValidationModule),
+          '',
           address(contracts.poolProxy)
         )
       );
@@ -45,7 +46,7 @@ contract AaveBorrowCap_Test is BaseAgentTest('BorrowCapUpdate'), TestnetProcedur
     _rangeValidationModule.setDefaultRangeConfig(
       address(_agentHub),
       _agentId,
-      'BorrowCapUpdate',
+      _updateType,
       rangeConfig
     );
 
@@ -87,7 +88,7 @@ contract AaveBorrowCap_Test is BaseAgentTest('BorrowCapUpdate'), TestnetProcedur
     _rangeValidationModule.setDefaultRangeConfig(
       address(_agentHub),
       _agentId,
-      'BorrowCapUpdate',
+      _updateType,
       rangeConfig
     );
 
@@ -107,6 +108,23 @@ contract AaveBorrowCap_Test is BaseAgentTest('BorrowCapUpdate'), TestnetProcedur
     assertTrue(_checkAndPerformAutomation(_agentId));
     (currentBorrowCap, ) = contracts.protocolDataProvider.getReserveCaps(address(weth));
     assertEq(currentBorrowCap, newBorrowCap);
+  }
+
+  function test_invalidUpdateTypeOnAgentContract() public {
+    // mock the agent contract so it has different updateType than the one registered on the agent hub
+    address agentContractWithInvalidUpdateType = address(new AaveBorrowCapAgent(
+      address(_agentHub),
+      address(_rangeValidationModule),
+      'wrong',
+      address(contracts.poolProxy)
+    ));
+    vm.etch(address(_agent), agentContractWithInvalidUpdateType.code);
+
+    (uint256 currentBorrowCap, ) = contracts.protocolDataProvider.getReserveCaps(address(weth));
+    _addUpdateToRiskOracle(currentBorrowCap * 2); // 100% relative increase
+
+    vm.expectRevert(abi.encodeWithSelector(BaseAaveAgent.InvalidUpdateType.selector, _updateType));
+    _checkAndPerformAutomation(_agentId);
   }
 
   function _addUpdateToRiskOracle(uint256 cap) internal {

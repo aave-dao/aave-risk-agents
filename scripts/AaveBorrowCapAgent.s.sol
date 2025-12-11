@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {AaveRatesAgent} from '../src/contracts/agent/AaveRatesAgent.sol';
+import {AaveBorrowCapAgent} from '../src/contracts/agent/AaveBorrowCapAgent.sol';
 
-library DeployRatesAgent {
+library DeployBorrowCapAgent {
   function deploy(
     address agentHub,
     address rangeValidationModule,
     string memory updateTypeSuffix,
     address pool
   ) internal {
-    new AaveRatesAgent(agentHub, rangeValidationModule, updateTypeSuffix, pool);
+    new AaveBorrowCapAgent(agentHub, rangeValidationModule, updateTypeSuffix, pool);
   }
 }

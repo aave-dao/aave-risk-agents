@@ -9,7 +9,7 @@ import {IAgentHub, IAgentConfigurator} from 'chaos-agents/src/interfaces/IAgentH
 import {BaseAgentTest} from 'chaos-agents/tests/agent/BaseAgentTest.sol';
 import {Math} from 'openzeppelin-contracts/contracts/utils/math/Math.sol';
 
-import {AaveCapoAgent} from '../../src/contracts/agent/AaveCapoAgent.sol';
+import {AaveCapoAgent, BaseAaveAgent} from '../../src/contracts/agent/AaveCapoAgent.sol';
 
 contract AaveCapoAgent_Test is BaseAgentTest('CapoPriceCapUpdate'), TestnetProcedures {
   using SafeCast for uint256;
@@ -49,6 +49,7 @@ contract AaveCapoAgent_Test is BaseAgentTest('CapoPriceCapUpdate'), TestnetProce
         new AaveCapoAgent(
           address(_agentHub),
           address(_rangeValidationModule),
+          '',
           address(contracts.poolProxy),
           address(contracts.aaveOracle)
         )
@@ -303,6 +304,26 @@ contract AaveCapoAgent_Test is BaseAgentTest('CapoPriceCapUpdate'), TestnetProce
       abi.encodeWithSelector(IPriceCapAdapter.InvalidRatioTimestamp.selector, currentSnapshotTs)
     );
     _agentHub.execute(actions);
+  }
+
+  function test_invalidUpdateTypeOnAgentContract() public {
+    // mock the agent contract so it has different updateType than the one registered on the agent hub
+    address agentContractWithInvalidUpdateType = address(new AaveCapoAgent(
+      address(_agentHub),
+      address(_rangeValidationModule),
+      'wrong',
+      address(contracts.poolProxy),
+      address(contracts.aaveOracle)
+    ));
+    vm.etch(address(_agent), agentContractWithInvalidUpdateType.code);
+
+    uint256 newMaxGrowthPercent = (_capoFeed.getMaxYearlyGrowthRatePercent() * 110) / 100; // 10% relative increase
+    uint256 newSnapshotRatio = (_capoFeed.getSnapshotRatio() * 105) / 100; // 5% relative increase
+    uint256 newSnapshotTimestamp = block.timestamp - _capoFeed.MINIMUM_SNAPSHOT_DELAY() - 1;
+    _addUpdateToRiskOracle(newSnapshotRatio, newSnapshotTimestamp, newMaxGrowthPercent);
+
+    vm.expectRevert(abi.encodeWithSelector(BaseAaveAgent.InvalidUpdateType.selector, _updateType));
+    _checkAndPerformAutomation(_agentId);
   }
 
   function _addUpdateToRiskOracle(
