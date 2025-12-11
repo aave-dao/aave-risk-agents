@@ -7,9 +7,9 @@ library DeployBorrowCapAgent {
   function deploy(
     address agentHub,
     address rangeValidationModule,
-    string memory updateType,
+    string memory updateTypeSuffix,
     address pool
   ) internal {
-    new AaveBorrowCapAgent(agentHub, rangeValidationModule, updateType, pool);
+    new AaveBorrowCapAgent(agentHub, rangeValidationModule, updateTypeSuffix, pool);
   }
 }

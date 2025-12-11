@@ -7,9 +7,9 @@ library DeploySupplyCapAgent {
   function deploy(
     address agentHub,
     address rangeValidationModule,
-    string memory updateType,
+    string memory updateTypeSuffix,
     address pool
   ) internal {
-    new AaveSupplyCapAgent(agentHub, rangeValidationModule, updateType, pool);
+    new AaveSupplyCapAgent(agentHub, rangeValidationModule, updateTypeSuffix, pool);
   }
 }

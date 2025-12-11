@@ -7,9 +7,9 @@ library DeployEModeAgent {
   function deploy(
     address agentHub,
     address rangeValidationModule,
-    string memory updateType,
+    string memory updateTypeSuffix,
     address pool
   ) internal {
-    new AaveEModeAgent(agentHub, rangeValidationModule, updateType, pool);
+    new AaveEModeAgent(agentHub, rangeValidationModule, updateTypeSuffix, pool);
   }
 }
