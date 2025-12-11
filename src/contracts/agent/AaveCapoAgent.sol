@@ -31,7 +31,7 @@ contract AaveCapoAgent is BaseAaveAgent {
     string memory updateTypeSuffix,
     address pool,
     address aaveOracle
-  ) BaseAaveAgent(agentHub, rangeValidationModule, string.concat('CapoPriceCapUpdate', updateTypeSuffix), pool) {
+  ) BaseAaveAgent(agentHub, rangeValidationModule, 'CapoPriceCapUpdate', updateTypeSuffix, pool) {
     AAVE_ORACLE = IAaveOracle(aaveOracle);
   }
 

@@ -31,7 +31,7 @@ contract AaveSupplyCapAgent is BaseAaveAgent {
     address rangeValidationModule,
     string memory updateTypeSuffix,
     address pool
-  ) BaseAaveAgent(agentHub, rangeValidationModule, string.concat('SupplyCapUpdate', updateTypeSuffix), pool) {}
+  ) BaseAaveAgent(agentHub, rangeValidationModule, 'SupplyCapUpdate', updateTypeSuffix, pool) {}
 
   /// @inheritdoc BaseAaveAgent
   function _validateUpdate(

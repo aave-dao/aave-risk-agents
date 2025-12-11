@@ -30,12 +30,19 @@ abstract contract BaseAaveAgent is BaseAgent {
    * @param agentHub the address of the agentHub which will use this agent contract
    * @param rangeValidationModule the address of range validation module used to store range config and to validate ranges
    * @param updateType the updateType of the agent contract
+   * @param updateTypeSuffix the updateType suffix to append, useful for networks where we have multiple instances, ex. Core and Prime on mainnet.
    * @param pool the address of aave pool
    */
-  constructor(address agentHub, address rangeValidationModule, string memory updateType, address pool) BaseAgent(agentHub) {
+  constructor(
+    address agentHub,
+    address rangeValidationModule,
+    string memory updateType,
+    string memory updateTypeSuffix,
+    address pool
+  ) BaseAgent(agentHub) {
     RANGE_VALIDATION_MODULE = IRangeValidationModule(rangeValidationModule);
     POOL = IPool(pool);
-    UPDATE_TYPE = updateType.toShortString();
+    UPDATE_TYPE = string.concat(updateType, updateTypeSuffix).toShortString();
   }
 
   /// @inheritdoc BaseAgent
@@ -43,8 +50,7 @@ abstract contract BaseAaveAgent is BaseAgent {
     uint256 agentId,
     bytes calldata agentContext,
     IRiskOracle.RiskParameterUpdate calldata update
-  ) external view virtual override
-   returns (bool) {
+  ) external view virtual override returns (bool) {
     // validates if the updateType registered on the agent hub is same as on the agent contract
     require(update.updateType.equal(UPDATE_TYPE.toString()), InvalidUpdateType(update.updateType));
     return _validateUpdate(agentId, agentContext, update);

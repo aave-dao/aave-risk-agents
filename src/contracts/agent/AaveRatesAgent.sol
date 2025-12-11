@@ -29,7 +29,7 @@ contract AaveRatesAgent is BaseAaveAgent {
     address rangeValidationModule,
     string memory updateTypeSuffix,
     address pool
-  ) BaseAaveAgent(agentHub, rangeValidationModule, string.concat('RateStrategyUpdate', updateTypeSuffix), pool) {}
+  ) BaseAaveAgent(agentHub, rangeValidationModule, 'RateStrategyUpdate', updateTypeSuffix, pool) {}
 
   /// @inheritdoc BaseAaveAgent
   function _validateUpdate(

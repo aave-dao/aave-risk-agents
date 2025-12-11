@@ -31,7 +31,7 @@ contract AaveBorrowCapAgent is BaseAaveAgent {
     address rangeValidationModule,
     string memory updateTypeSuffix,
     address pool
-  ) BaseAaveAgent(agentHub, rangeValidationModule, string.concat('BorrowCapUpdate', updateTypeSuffix), pool) {}
+  ) BaseAaveAgent(agentHub, rangeValidationModule, 'BorrowCapUpdate', updateTypeSuffix, pool) {}
 
   /// @inheritdoc BaseAaveAgent
   function _validateUpdate(

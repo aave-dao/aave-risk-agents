@@ -40,7 +40,7 @@ contract AaveEModeAgent is BaseAaveAgent {
     address rangeValidationModule,
     string memory updateTypeSuffix,
     address pool
-  ) BaseAaveAgent(agentHub, rangeValidationModule, string.concat('EModeCategoryUpdate', updateTypeSuffix), pool) {}
+  ) BaseAaveAgent(agentHub, rangeValidationModule, 'EModeCategoryUpdate', updateTypeSuffix, pool) {}
 
   /// @inheritdoc BaseAaveAgent
   function _validateUpdate(

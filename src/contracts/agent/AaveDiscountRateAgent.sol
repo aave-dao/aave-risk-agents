@@ -36,7 +36,15 @@ contract AaveDiscountRateAgent is BaseAaveAgent {
     string memory updateTypeSuffix,
     address pool,
     address aaveOracle
-  ) BaseAaveAgent(agentHub, rangeValidationModule, string.concat('PendleDiscountRateUpdate', updateTypeSuffix), pool) {
+  )
+    BaseAaveAgent(
+      agentHub,
+      rangeValidationModule,
+      'PendleDiscountRateUpdate',
+      updateTypeSuffix,
+      pool
+    )
+  {
     AAVE_ORACLE = IAaveOracle(aaveOracle);
   }
 
