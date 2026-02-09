@@ -29,6 +29,7 @@ import {DeployBorrowCapAgent} from './AaveBorrowCapAgent.s.sol';
 import {DeployDiscountRateAgent} from './AaveDiscountRateAgent.s.sol';
 import {DeployEModeAgent} from './AaveEModeAgent.s.sol';
 import {DeployRatesAgent} from './AaveRatesAgent.s.sol';
+import {DeployCapoAgent} from './AaveCapoAgent.s.sol';
 
 // make deploy-ledger contract=scripts/Deploy.s.sol:DeployEthereum chain=mainnet
 contract DeployEthereum is EthereumScript {
@@ -61,6 +62,15 @@ contract DeployEthereum is EthereumScript {
       '_Prime',
       address(AaveV3EthereumLido.POOL)
     );
+
+    // core
+    DeployCapoAgent.deploy(
+      MiscEthereum.AGENT_HUB,
+      MiscEthereum.RANGE_VALIDATION_MODULE,
+      '_Core',
+      address(AaveV3Ethereum.POOL),
+      address(AaveV3Ethereum.ORACLE)
+    );
   }
 }
 
@@ -74,6 +84,13 @@ contract DeployArbitrum is ArbitrumScript {
       address(AaveV3Arbitrum.POOL)
     );
     DeployBorrowCapAgent.deploy(
+      MiscArbitrum.AGENT_HUB,
+      MiscArbitrum.RANGE_VALIDATION_MODULE,
+      '',
+      address(AaveV3Arbitrum.POOL)
+    );
+
+    DeployRatesAgent.deploy(
       MiscArbitrum.AGENT_HUB,
       MiscArbitrum.RANGE_VALIDATION_MODULE,
       '',
@@ -97,6 +114,13 @@ contract DeployAvalanche is AvalancheScript {
       '',
       address(AaveV3Avalanche.POOL)
     );
+
+    DeployRatesAgent.deploy(
+      MiscAvalanche.AGENT_HUB,
+      MiscAvalanche.RANGE_VALIDATION_MODULE,
+      '',
+      address(AaveV3Avalanche.POOL)
+    );
   }
 }
 
@@ -110,6 +134,12 @@ contract DeployBase is BaseScript {
       address(AaveV3Base.POOL)
     );
     DeployBorrowCapAgent.deploy(
+      MiscBase.AGENT_HUB,
+      MiscBase.RANGE_VALIDATION_MODULE,
+      '',
+      address(AaveV3Base.POOL)
+    );
+    DeployRatesAgent.deploy(
       MiscBase.AGENT_HUB,
       MiscBase.RANGE_VALIDATION_MODULE,
       '',
