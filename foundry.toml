@@ -30,6 +30,7 @@ bnb = "${RPC_BNB}"
 celo = "${RPC_CELO}"
 linea = "${RPC_LINEA}"
 plasma = "${RPC_PLASMA}"
+ink = "${RPC_INK}"
 
 [etherscan]
 mainnet = { key="${ETHERSCAN_API_KEY_MAINNET}", chainId=1 }
@@ -46,5 +47,6 @@ bnb = { key="${ETHERSCAN_API_KEY_BNB}", chainId=56 }
 celo = { key="${ETHERSCAN_API_KEY_CELO}", chainId=42220 }
 linea = { key="${ETHERSCAN_API_KEY_LINEA}", chain = 59144 }
 plasma = { key="any", chainId=9745 }
+ink = { key="any", chainId=57073 }
 
 # See more config options https://github.com/gakonst/foundry/tree/master/config
