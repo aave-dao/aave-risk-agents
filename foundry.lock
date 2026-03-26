@@ -2,6 +2,9 @@
   "lib/aave-helpers": {
     "rev": "a7799378dde2c630298a177fd9f600b2d34e27fc"
   },
+  "lib/aave-price-feeds": {
+    "rev": "dd4168225f1a535b659460283e3ce961996c778c"
+  },
   "lib/chaos-agents": {
     "rev": "b365c58bf040c32521266cf10a4e70da9a8b7d4f"
   },
