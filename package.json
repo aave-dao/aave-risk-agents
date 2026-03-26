@@ -1,5 +1,5 @@
 {
-  "name": "@aave-dao/aave-agents",
+  "name": "@aave-dao/aave-risk-agents",
   "version": "1.0.0",
   "scripts": {
     "lint": "prettier ./",
@@ -7,15 +7,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aave-dao/aave-agents.git"
+    "url": "git+https://github.com/aave-dao/aave-risk-agents.git"
   },
   "keywords": [],
   "author": "BGD labs",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/aave-dao/aave-agents/issues"
+    "url": "https://github.com/aave-dao/aave-risk-agents/issues"
   },
-  "homepage": "https://github.com/aave-dao/aave-agents#readme",
+  "homepage": "https://github.com/aave-dao/aave-risk-agents#readme",
   "devDependencies": {
     "lefthook": "^1.8.4",
     "prettier": "2.8.7",

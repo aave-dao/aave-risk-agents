@@ -63,4 +63,4 @@ forge test
 
 ## License
 
-This project is released under the [MIT license](./LICENSE). Copyright © 2025, Aave DAO, represented by its governance smart contracts.
+This project is released under the [MIT license](./LICENSE). Copyright © 2026, Aave DAO, represented by its governance smart contracts.

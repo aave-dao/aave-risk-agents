@@ -2,7 +2,7 @@
 pragma solidity ^0.8.27;
 
 import {IAaveOracle} from 'aave-v3-origin/src/contracts/interfaces/IAaveOracle.sol';
-import {IPriceCapAdapter} from 'aave-capo/interfaces/IPriceCapAdapter.sol';
+import {IPriceCapAdapter} from 'aave-price-feeds/interfaces/IPriceCapAdapter.sol';
 import {IRangeValidationModule} from 'chaos-agents/src/interfaces/IRangeValidationModule.sol';
 import {IRiskOracle} from 'chaos-agents/src/contracts/dependencies/IRiskOracle.sol';
 import {BaseAgent} from 'chaos-agents/src/contracts/agent/BaseAgent.sol';

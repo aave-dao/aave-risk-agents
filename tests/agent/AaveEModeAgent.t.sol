@@ -6,10 +6,13 @@ import {EngineFlags} from 'aave-v3-origin/src/contracts/extensions/v3-config-eng
 import {DataTypes} from 'aave-v3-origin/src/contracts/protocol/libraries/types/DataTypes.sol';
 import {RangeValidationModule, IRangeValidationModule} from 'chaos-agents/src/contracts/modules/RangeValidationModule.sol';
 import {BaseAgentTest, IAgentConfigurator} from 'chaos-agents/tests/agent/BaseAgentTest.sol';
+import {SafeCast} from 'openzeppelin-contracts/contracts/utils/math/SafeCast.sol';
 
 import {AaveEModeAgent, BaseAaveAgent} from '../../src/contracts/agent/AaveEModeAgent.sol';
 
 contract AaveEModeAgent_Test is BaseAgentTest('EModeCategoryUpdate'), TestnetProcedures {
+  using SafeCast for *;
+
   RangeValidationModule internal _rangeValidationModule;
   address public constant EMODE_MARKET = address(uint160(1));
 
@@ -80,7 +83,7 @@ contract AaveEModeAgent_Test is BaseAgentTest('EModeCategoryUpdate'), TestnetPro
     vm.startPrank(poolAdmin);
     contracts.aclManager.addRiskAdmin(address(_agent));
     contracts.poolConfiguratorProxy.setEModeCategory(
-      uint8(uint160(EMODE_MARKET)),
+      uint160(EMODE_MARKET).toUint8(),
       80_00,
       85_00,
       105_00,
@@ -93,7 +96,7 @@ contract AaveEModeAgent_Test is BaseAgentTest('EModeCategoryUpdate'), TestnetPro
     vm.assume(change > 50);
     uint256 currentLTV = contracts
       .poolProxy
-      .getEModeCategoryCollateralConfig(uint8(uint160(EMODE_MARKET)))
+      .getEModeCategoryCollateralConfig(uint160(EMODE_MARKET).toUint8())
       .ltv;
 
     // more than 0.5% absolute increase
@@ -113,7 +116,7 @@ contract AaveEModeAgent_Test is BaseAgentTest('EModeCategoryUpdate'), TestnetPro
     vm.assume(change != 0 && change < 50);
     uint256 currentLTV = contracts
       .poolProxy
-      .getEModeCategoryCollateralConfig(uint8(uint160(EMODE_MARKET)))
+      .getEModeCategoryCollateralConfig(uint160(EMODE_MARKET).toUint8())
       .ltv;
 
     // less than 0.5% absolute increase
@@ -133,7 +136,7 @@ contract AaveEModeAgent_Test is BaseAgentTest('EModeCategoryUpdate'), TestnetPro
     vm.assume(change > 50);
     uint256 currentLT = contracts
       .poolProxy
-      .getEModeCategoryCollateralConfig(uint8(uint160(EMODE_MARKET)))
+      .getEModeCategoryCollateralConfig(uint160(EMODE_MARKET).toUint8())
       .liquidationThreshold;
 
     // more than 0.5% absolute increase
@@ -153,7 +156,7 @@ contract AaveEModeAgent_Test is BaseAgentTest('EModeCategoryUpdate'), TestnetPro
     vm.assume(change != 0 && change < 50);
     uint256 currentLT = contracts
       .poolProxy
-      .getEModeCategoryCollateralConfig(uint8(uint160(EMODE_MARKET)))
+      .getEModeCategoryCollateralConfig(uint160(EMODE_MARKET).toUint8())
       .liquidationThreshold;
 
     // less than 0.5% absolute increase
@@ -173,7 +176,7 @@ contract AaveEModeAgent_Test is BaseAgentTest('EModeCategoryUpdate'), TestnetPro
     vm.assume(change > 50);
     uint256 currentLB = contracts
       .poolProxy
-      .getEModeCategoryCollateralConfig(uint8(uint160(EMODE_MARKET)))
+      .getEModeCategoryCollateralConfig(uint160(EMODE_MARKET).toUint8())
       .liquidationBonus;
 
     // more than 0.5% absolute increase
@@ -193,7 +196,7 @@ contract AaveEModeAgent_Test is BaseAgentTest('EModeCategoryUpdate'), TestnetPro
     vm.assume(change != 0 && change < 50);
     uint256 currentLB = contracts
       .poolProxy
-      .getEModeCategoryCollateralConfig(uint8(uint160(EMODE_MARKET)))
+      .getEModeCategoryCollateralConfig(uint160(EMODE_MARKET).toUint8())
       .liquidationBonus - 100_00;
 
     // less than 0.5% absolute increase
@@ -221,7 +224,7 @@ contract AaveEModeAgent_Test is BaseAgentTest('EModeCategoryUpdate'), TestnetPro
   function test_injectionFromHub() public {
     DataTypes.CollateralConfig memory currentEModeConfig = contracts
       .poolProxy
-      .getEModeCategoryCollateralConfig(uint8(uint160(EMODE_MARKET)));
+      .getEModeCategoryCollateralConfig(uint160(EMODE_MARKET).toUint8());
 
     uint256 newLTV = currentEModeConfig.ltv + 50;
     uint256 newLT = currentEModeConfig.liquidationThreshold + 50;
@@ -231,7 +234,7 @@ contract AaveEModeAgent_Test is BaseAgentTest('EModeCategoryUpdate'), TestnetPro
     assertTrue(_checkAndPerformAutomation(_agentId));
 
     currentEModeConfig = contracts.poolProxy.getEModeCategoryCollateralConfig(
-      uint8(uint160(EMODE_MARKET))
+      uint160(EMODE_MARKET).toUint8()
     );
     assertEq(currentEModeConfig.ltv, newLTV);
     assertEq(currentEModeConfig.liquidationThreshold, newLT);
@@ -250,7 +253,7 @@ contract AaveEModeAgent_Test is BaseAgentTest('EModeCategoryUpdate'), TestnetPro
 
     DataTypes.CollateralConfig memory currentEModeConfig = contracts
       .poolProxy
-      .getEModeCategoryCollateralConfig(uint8(uint160(EMODE_MARKET)));
+      .getEModeCategoryCollateralConfig(uint160(EMODE_MARKET).toUint8());
 
     uint256 newLTV = currentEModeConfig.ltv + 50;
     uint256 newLT = currentEModeConfig.liquidationThreshold + 50;
@@ -265,13 +268,13 @@ contract AaveEModeAgent_Test is BaseAgentTest('EModeCategoryUpdate'), TestnetPro
     vm.startPrank(_riskOracleOwner);
     DataTypes.CollateralConfig memory eModeConfig = contracts
       .poolProxy
-      .getEModeCategoryCollateralConfig(uint8(uint160(EMODE_MARKET)));
+      .getEModeCategoryCollateralConfig(uint160(EMODE_MARKET).toUint8());
     // as the definition is 100% + x%, and we take into account x% for simplicity
     eModeConfig.liquidationBonus = eModeConfig.liquidationBonus - 100_00;
 
-    if (ltv != EngineFlags.KEEP_CURRENT) eModeConfig.ltv = uint16(ltv);
-    if (lt != EngineFlags.KEEP_CURRENT) eModeConfig.liquidationThreshold = uint16(lt);
-    if (lb != EngineFlags.KEEP_CURRENT) eModeConfig.liquidationBonus = uint16(lb);
+    if (ltv != EngineFlags.KEEP_CURRENT) eModeConfig.ltv = ltv.toUint16();
+    if (lt != EngineFlags.KEEP_CURRENT) eModeConfig.liquidationThreshold = lt.toUint16();
+    if (lb != EngineFlags.KEEP_CURRENT) eModeConfig.liquidationBonus = lb.toUint16();
 
     _riskOracle.publishRiskParameterUpdate(
       'referenceId',
