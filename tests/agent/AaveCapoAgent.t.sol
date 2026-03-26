@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 import {TestnetProcedures} from 'aave-v3-origin/tests/utils/TestnetProcedures.sol';
-import {CLRatePriceCapAdapter, IPriceCapAdapter, IACLManager} from 'aave-capo/contracts/CLRatePriceCapAdapter.sol';
+import {CLRatePriceCapAdapter, IPriceCapAdapter, IACLManager} from 'aave-price-feeds/contracts/CLRatePriceCapAdapter.sol';
 import {SafeCast} from 'openzeppelin-contracts/contracts/utils/math/SafeCast.sol';
 import {RangeValidationModule, IRangeValidationModule} from 'chaos-agents/src/contracts/modules/RangeValidationModule.sol';
 import {IAgentHub, IAgentConfigurator} from 'chaos-agents/src/interfaces/IAgentHub.sol';

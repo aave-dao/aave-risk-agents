@@ -4,7 +4,7 @@ pragma solidity ^0.8.27;
 import {Address} from 'openzeppelin-contracts/contracts/utils/Address.sol';
 import {SafeCast} from 'openzeppelin-contracts/contracts/utils/math/SafeCast.sol';
 import {IAaveOracle} from 'aave-v3-origin/src/contracts/interfaces/IAaveOracle.sol';
-import {IPendlePriceCapAdapter} from 'aave-capo/interfaces/IPendlePriceCapAdapter.sol';
+import {IPendlePriceCapAdapter} from 'aave-price-feeds/interfaces/IPendlePriceCapAdapter.sol';
 import {IRangeValidationModule} from 'chaos-agents/src/interfaces/IRangeValidationModule.sol';
 import {IRiskOracle} from 'chaos-agents/src/contracts/dependencies/IRiskOracle.sol';
 import {BaseAgent} from 'chaos-agents/src/contracts/agent/BaseAgent.sol';

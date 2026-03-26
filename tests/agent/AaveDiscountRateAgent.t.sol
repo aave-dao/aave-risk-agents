@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 import {TestnetProcedures} from 'aave-v3-origin/tests/utils/TestnetProcedures.sol';
-import {PendlePriceCapAdapter, IPendlePriceCapAdapter} from 'aave-capo/contracts/PendlePriceCapAdapter.sol';
+import {PendlePriceCapAdapter, IPendlePriceCapAdapter} from 'aave-price-feeds/contracts/PendlePriceCapAdapter.sol';
 import {RangeValidationModule, IRangeValidationModule} from 'chaos-agents/src/contracts/modules/RangeValidationModule.sol';
 import {IAgentConfigurator, BaseAgentTest} from 'chaos-agents/tests/agent/BaseAgentTest.sol';
 

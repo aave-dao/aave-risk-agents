@@ -1,12 +1,6 @@
 {
-  "lib/aave-capo": {
-    "rev": "ef778f5f7fbf9e2cea0b815f8a85d8097747e45e"
-  },
   "lib/aave-helpers": {
-    "tag": {
-      "name": "v3.1.0",
-      "rev": "e0ad471e9da2b45468b0f3e0adac7d3c257940dc"
-    }
+    "rev": "a7799378dde2c630298a177fd9f600b2d34e27fc"
   },
   "lib/chaos-agents": {
     "rev": "b365c58bf040c32521266cf10a4e70da9a8b7d4f"

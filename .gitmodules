@@ -5,9 +5,9 @@
 	path = lib/chaos-agents
 	url = https://github.com/ChaosLabsInc/chaos-agents
 
-[submodule "lib/aave-capo"]
-	path = lib/aave-capo
-	url = https://github.com/bgd-labs/aave-capo
 [submodule "lib/aave-helpers"]
 	path = lib/aave-helpers
-	url = https://github.com/bgd-labs/aave-helpers
+	url = https://github.com/aave-dao/aave-helpers
+[submodule "lib/aave-price-feeds"]
+	path = lib/aave-price-feeds
+	url = https://github.com/aave-dao/aave-price-feeds
