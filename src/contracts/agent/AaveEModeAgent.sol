@@ -103,7 +103,8 @@ contract AaveEModeAgent is BaseAaveAgent {
       ltv: eModeUpdate.ltv,
       liqThreshold: eModeUpdate.liquidationThreshold,
       liqBonus: eModeUpdate.liquidationBonus,
-      label: EngineFlags.KEEP_CURRENT_STRING
+      label: EngineFlags.KEEP_CURRENT_STRING,
+      isolated: EngineFlags.KEEP_CURRENT
     });
 
     // target is the aave config engine, which is a helper contract to update protocol risk params

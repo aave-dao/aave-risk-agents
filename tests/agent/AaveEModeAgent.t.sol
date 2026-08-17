@@ -87,7 +87,8 @@ contract AaveEModeAgent_Test is BaseAgentTest('EModeCategoryUpdate'), TestnetPro
       80_00,
       85_00,
       105_00,
-      'Test EMode Category'
+      'Test EMode Category',
+      true
     );
     vm.stopPrank();
   }
@@ -221,10 +222,14 @@ contract AaveEModeAgent_Test is BaseAgentTest('EModeCategoryUpdate'), TestnetPro
     assertFalse(_agent.validate(_agentId, '', _riskOracle.getUpdateById(1)));
   }
 
-  function test_injectionFromHub() public {
+  function test_injectionFromHub_preservesIsolation(bool isolated) public {
+    uint8 eModeId = uint160(EMODE_MARKET).toUint8();
+    vm.prank(poolAdmin);
+    contracts.poolConfiguratorProxy.setEModeCategoryIsolated(eModeId, isolated);
+
     DataTypes.CollateralConfig memory currentEModeConfig = contracts
       .poolProxy
-      .getEModeCategoryCollateralConfig(uint160(EMODE_MARKET).toUint8());
+      .getEModeCategoryCollateralConfig(eModeId);
 
     uint256 newLTV = currentEModeConfig.ltv + 50;
     uint256 newLT = currentEModeConfig.liquidationThreshold + 50;
@@ -233,12 +238,11 @@ contract AaveEModeAgent_Test is BaseAgentTest('EModeCategoryUpdate'), TestnetPro
 
     assertTrue(_checkAndPerformAutomation(_agentId));
 
-    currentEModeConfig = contracts.poolProxy.getEModeCategoryCollateralConfig(
-      uint160(EMODE_MARKET).toUint8()
-    );
+    currentEModeConfig = contracts.poolProxy.getEModeCategoryCollateralConfig(eModeId);
     assertEq(currentEModeConfig.ltv, newLTV);
     assertEq(currentEModeConfig.liquidationThreshold, newLT);
     assertEq(currentEModeConfig.liquidationBonus - 100_00, newLB);
+    assertEq(contracts.poolProxy.getIsEModeCategoryIsolated(eModeId), isolated);
   }
 
   function test_invalidUpdateTypeOnAgentContract() public {
