@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {EthereumScript, PolygonScript, BNBScript, GnosisScript, ArbitrumScript, OptimismScript, PlasmaScript, LineaScript, BaseScript, AvalancheScript} from 'solidity-utils/contracts/utils/ScriptUtils.sol';
+import {EthereumScript, PolygonScript, BNBScript, GnosisScript, ArbitrumScript, OptimismScript, PlasmaScript, LineaScript, BaseScript, AvalancheScript, MonadScript} from 'solidity-utils/contracts/utils/ScriptUtils.sol';
 import {MiscEthereum} from 'aave-address-book/MiscEthereum.sol';
 import {AaveV3Ethereum} from 'aave-address-book/AaveV3Ethereum.sol';
 import {AaveV3EthereumLido} from 'aave-address-book/AaveV3EthereumLido.sol';
@@ -23,6 +23,8 @@ import {MiscBase} from 'aave-address-book/MiscBase.sol';
 import {AaveV3Base} from 'aave-address-book/AaveV3Base.sol';
 import {MiscAvalanche} from 'aave-address-book/MiscAvalanche.sol';
 import {AaveV3Avalanche} from 'aave-address-book/AaveV3Avalanche.sol';
+import {MiscMonad} from 'aave-address-book/MiscMonad.sol';
+import {AaveV3Monad} from 'aave-address-book/AaveV3Monad.sol';
 
 import {DeploySupplyCapAgent} from './AaveSupplyCapAgent.s.sol';
 import {DeployBorrowCapAgent} from './AaveBorrowCapAgent.s.sol';
@@ -217,6 +219,25 @@ contract DeployLinea is LineaScript {
       MiscLinea.RANGE_VALIDATION_MODULE,
       '',
       address(AaveV3Linea.POOL)
+    );
+  }
+}
+
+// make deploy-ledger contract=scripts/Deploy.s.sol:DeployMonad chain=monad
+contract DeployMonad is MonadScript {
+  function run() external broadcast {
+    DeployDiscountRateAgent.deploy(
+      MiscMonad.AGENT_HUB,
+      MiscMonad.RANGE_VALIDATION_MODULE,
+      '',
+      address(AaveV3Monad.POOL),
+      address(AaveV3Monad.ORACLE)
+    );
+    DeployEModeAgent.deploy(
+      MiscMonad.AGENT_HUB,
+      MiscMonad.RANGE_VALIDATION_MODULE,
+      '',
+      address(AaveV3Monad.POOL)
     );
   }
 }
